@@ -1,67 +1,35 @@
-# Crossmodal-Bayesian-Attention
-Leaky Bayesian model of crossmodal attention in an oddball task
-# Crossmodal Bayesian Attention Model
+# Crossmodal Bayesian Attention: Leaky Bayesian model of crossmodal attention in an oddball task
+This project investigates how humans adapt to changing sensory statistics in a crossmodal oddball task. In this paradigm, the probability of auditory and visual deviants reverses across phases, requiring participants to continuously update their expectations.
 
-This project models how humans dynamically reweight sensory modalities using a leaky Bayesian belief-updating process in a crossmodal oddball task.
+Behaviorally, participants respond faster to stimuli that are more likely under the current environment, and show rapid adaptation following the reversal. However, standard analyses alone do not explain *how* these expectations are formed and updated over time.
 
----
+To address this, I implemented a simple computational model based on Bayesian updating. Importantly, I compared a full accumulation model (λ = 1.0) with a leaky updating model that discounts older evidence. Model comparison shows that a leaky Bayesian learner (λ ≈ 0.90) provides a substantially better fit to reaction time data, suggesting that participants rely more on recent evidence rather than integrating information uniformly over time.
 
-## Overview
+Further analysis shows that a belief-weighted measure of sensory evidence strongly predicts trial-by-trial reaction times, linking the latent internal model to observable behavior. Additionally, estimated belief trajectories reveal a gradual shift in modality weighting around the reversal point, consistent with adaptive updating rather than abrupt switching.
 
-In a crossmodal oddball paradigm, participants respond to rare (deviant) stimuli presented in auditory and/or visual modalities. The probability structure reverses across phases, requiring adaptation. Instead of relying on static comparisons, this project implements a **trial-by-trial computational model** to explain behavioral dynamics.
-
----
-
-## Key Questions
-
-- How do humans adapt to changing stimulus probabilities?
-- Do participants track modality-specific reliability over time?
-- Can reaction times be explained by an internal belief-updating process?
+Together, these results suggest that human crossmodal attention can be understood as a dynamic, recency-weighted inference process, rather than a static or fully optimal accumulator.
 
 ---
 
-## Behavioral Results
-
-- Reaction times were significantly faster in Phase 2 compared to Phase 1  
-- No significant changes in hit rate or false alarm rate  
-- Visual deviants became faster than auditory deviants after reversal  
-- Double deviants (both auditory + visual) produced the fastest responses  
-
-These results suggest dynamic reweighting of attention across modalities.
+## Figures
+<img width="2550" height="1500" alt="figure_lambda_tuning" src="https://github.com/user-attachments/assets/ec2154fb-1a11-4fb7-9fa5-b3346964b21f" />
 
 ---
 
-## Computational Model
+## Approach
 
-We implemented a **leaky Bayesian belief-updating model**:
+To understand how expectations are formed and updated, I modeled behavior using a leaky Bayesian framework. Separate belief states were maintained for auditory and visual streams and updated trial-by-trial under a Beta-Bernoulli scheme. A forgetting factor (λ) controls the influence of past observations, allowing the model to weight recent evidence more strongly.
 
-- Each modality (auditory, visual) is tracked separately  
-- Beliefs are updated trial-by-trial using a Beta-Bernoulli framework  
-- A forgetting factor (λ) discounts older observations  
-
-### Belief update
-
-At each trial:
-
-- Estimate current belief:
-  - `belief_visual = alpha_v / (alpha_v + beta_v)`
-  - `belief_auditory = alpha_a / (alpha_a + beta_a)`
-
-- Apply decay:
-  - `alpha *= λ`
-  - `beta *= λ`
-
-- Update with new observation
+Reaction time was then modeled as a function of belief-weighted sensory evidence. For each trial, evidence is computed from the current belief of the relevant modality (or both modalities for double deviants), linking latent expectations to observable behavior.
 
 ---
 
-## Evidence Model
+## Behavioral Summary
 
-Reaction time is modeled as a function of **belief-weighted sensory evidence**:
+Participants adapted rapidly after the probability reversal. Reaction times decreased in Phase 2, while accuracy (hit and false alarm rates) remained stable. After reversal, visual deviants became faster than auditory deviants, and double deviants produced the fastest responses, consistent with dynamic reweighting across modalities.
 
-- Visual deviant → uses visual belief  
-- Auditory deviant → uses auditory belief  
-- Double deviant → sum of both  
+---
 
-```python
-total_evidence = belief_visual * visual_deviant + belief_auditory * auditory_deviant
+## Key Finding
+
+Model comparison shows that a leaky Bayesian learner (λ ≈ 0.90) fits the data substantially better than a full accumulation model (λ = 1.0). In addition, belief-weighted evidence strongly predicts trial-by-trial reaction times, suggesting that behavior reflects a recency-weighted internal inference process rather than uniform evidence accumulation.
