@@ -1,18 +1,20 @@
 # Crossmodal Bayesian Attention: Leaky Bayesian model of crossmodal attention in an oddball task
 This project investigates how humans adapt to changing sensory statistics in a crossmodal oddball task. In this paradigm, the probability of auditory and visual deviants reverses across phases, requiring participants to continuously update their expectations.
 
-Behaviorally, participants respond faster to stimuli that are more likely under the current environment, and show rapid adaptation following the reversal. However, standard analyses alone do not explain *how* these expectations are formed and updated over time.
+Behaviorally, participants respond faster to stimuli that are more likely under the current environment, and show rapid adaptation following the reversal. However, standard analyses alone do not explain how these expectations are formed and updated over time.
 
 To address this, I implemented a simple computational model based on Bayesian updating. Importantly, I compared a full accumulation model (λ = 1.0) with a leaky updating model that discounts older evidence. Model comparison shows that a leaky Bayesian learner (λ ≈ 0.90) provides a substantially better fit to reaction time data, suggesting that participants rely more on recent evidence rather than integrating information uniformly over time.
 
 Further analysis shows that a belief-weighted measure of sensory evidence strongly predicts trial-by-trial reaction times, linking the latent internal model to observable behavior. Additionally, estimated belief trajectories reveal a gradual shift in modality weighting around the reversal point, consistent with adaptive updating rather than abrupt switching.
 
-Together, these results suggest that human crossmodal attention can be understood as a dynamic, recency-weighted inference process, rather than a static or fully optimal accumulator.
+Together, these results suggest that participants rely more on recent evidence when updating expectations, rather than integrating information uniformly over time. This supports a recency-weighted inference account of crossmodal attention.
 
 ---
 
 ## Figures
 <img width="2550" height="1500" alt="figure_lambda_tuning" src="https://github.com/user-attachments/assets/ec2154fb-1a11-4fb7-9fa5-b3346964b21f" />
+<img width="2250" height="1650" alt="figure_total_evidence_vs_rt" src="https://github.com/user-attachments/assets/2ed2ded8-ea92-436f-8725-d0bbe4f33808" />
+<img width="2250" height="1650" alt="figure_belief_trajectory" src="https://github.com/user-attachments/assets/bba6d326-95d5-46dd-807b-acfcfc41ed12" />
 
 ---
 
